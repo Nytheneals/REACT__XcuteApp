@@ -1,12 +1,17 @@
 import React, { Component } from "react";
 import "./App.css";
+import NoteCard from "./noteCard";
 
 // STATELESS COMPONENT
 
 class App extends Component {
   constructor() {
     super();
-    this.handleClick = this.handleClick.bind(this);
+    this.state = {
+      notes: []
+    };
+
+    this.addNote = this.addNote.bind(this);
     this.showSidebar = this.showSidebar.bind(this);
   }
 
@@ -22,11 +27,28 @@ class App extends Component {
   }
 
   // ADD NEW ITEM
-  handleClick(e) {
+  addNote(e) {
     e.preventDefault();
-    console.log(e);
+    // MAKING A COPY OF THE STATE
+    const notes = this.state.notes;
+    // PUSH OBJECTS TO STATE ARRAY
+    notes.push({
+      title: this.title.value,
+      note: this.note.value
+    });
+    // UPDATING STATE
+    this.setState({
+      notes: notes
+    });
+
+    console.table(this.state.notes);
+    this.title.value = "";
+    this.note.value = "";
+    this.showSidebar(e);
   }
+
   // UPDATE ITEM
+
   // DELETE ITEM
 
   render() {
@@ -44,28 +66,31 @@ class App extends Component {
           </nav>
         </header>
         <section className="notes">
-          <div className="noteCard">
-            <i className="fa fa-edit" />
-            <i className="fa fa-times" />
-            <h4>Test note:</h4>
-            <p>
-              Lorem ipsum, dolor sit amet consectetur adipisicing elit. Corporis
-              sapiente, quas maiores commodi facere aliquam nulla quasi culpa.
-              Sed aliquid officiis veritatis rerum repudiandae quibusdam ab
-              ipsam tempora obcaecati aspernatur?
-            </p>
-          </div>
+          {this.state.notes
+            .map((note, index) => {
+              return <NoteCard note={note} key={index} />;
+            })
+            .reverse()}
         </section>
+
         <aside className="sidebar" ref={ref => (this.sidebar = ref)}>
-          <form>
+          <form onSubmit={this.addNote}>
             <h3>Add New note</h3>
             <div className="close-btn">
-              <i className="fa fa-times" />
+              <i className="fa fa-times" onClick={this.showSidebar} />
             </div>
             <label htmlFor="note-title">Title:</label>
-            <input type="text" name="note-title" />
-            <label htmlFor="note-text">Title:</label>
-            <textarea type="text" name="note-text" />
+            <input
+              type="text"
+              name="note-title"
+              ref={ref => (this.title = ref)}
+            />
+            <label htmlFor="note-text">Note:</label>
+            <textarea
+              type="text"
+              name="note-text"
+              ref={ref => (this.note = ref)}
+            />
             <input type="submit" value="Add New Note" />
           </form>
         </aside>
