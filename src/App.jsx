@@ -1,9 +1,34 @@
-import React, { Component } from 'react';
-import './App.css';
+import React, { Component } from "react";
+import "./App.css";
 
 // STATELESS COMPONENT
 
 class App extends Component {
+  constructor() {
+    super();
+    this.handleClick = this.handleClick.bind(this);
+    this.showSidebar = this.showSidebar.bind(this);
+  }
+
+  // SHOW SIDE BAR
+  // CREATED A REFERENCE TO AN ELEMENT, USING A FUNCTION
+
+  // ADDED A TOGGLE CLASS
+  showSidebar(e) {
+    e.preventDefault();
+    // console.log(this.sidebar); able to get this because i created a reference c
+
+    this.sidebar.classList.toggle("show");
+  }
+
+  // ADD NEW ITEM
+  handleClick(e) {
+    e.preventDefault();
+    console.log(e);
+  }
+  // UPDATE ITEM
+  // DELETE ITEM
+
   render() {
     return (
       // MAIN HEADER THATS HAS THE LOGO
@@ -12,7 +37,9 @@ class App extends Component {
         <header className="mainHeader">
           <h1>Xcute`</h1>
           <nav>
-            <a href="">Add New Note</a>
+            <a href="" onClick={this.showSidebar}>
+              Add New Note
+            </a>
             <a href="">Login</a>
           </nav>
         </header>
@@ -22,13 +49,14 @@ class App extends Component {
             <i className="fa fa-times" />
             <h4>Test note:</h4>
             <p>
-              Lorem ipsum, dolor sit amet consectetur adipisicing elit. Corporis sapiente, quas
-              maiores commodi facere aliquam nulla quasi culpa. Sed aliquid officiis veritatis rerum
-              repudiandae quibusdam ab ipsam tempora obcaecati aspernatur?
+              Lorem ipsum, dolor sit amet consectetur adipisicing elit. Corporis
+              sapiente, quas maiores commodi facere aliquam nulla quasi culpa.
+              Sed aliquid officiis veritatis rerum repudiandae quibusdam ab
+              ipsam tempora obcaecati aspernatur?
             </p>
           </div>
         </section>
-        <aside className="sidebar">
+        <aside className="sidebar" ref={ref => (this.sidebar = ref)}>
           <form>
             <h3>Add New note</h3>
             <div className="close-btn">
