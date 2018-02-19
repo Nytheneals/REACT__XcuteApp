@@ -1,6 +1,7 @@
 import React, { Component } from "react";
 import "./App.css";
 import NoteCard from "./noteCard";
+import base from "./base";
 
 // STATELESS COMPONENT
 
