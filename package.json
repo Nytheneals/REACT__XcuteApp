@@ -13,6 +13,8 @@
     "eject": "react-scripts eject"
   },
   "dependencies": {
+    "firebase": "^4.10.0",
+    "history": "^4.7.2",
     "re-base": "^3.2.2",
     "react": "^16.2.0",
     "react-dom": "^16.2.0",
