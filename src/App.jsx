@@ -45,8 +45,6 @@ class App extends Component {
         this.setState({
           notes: dataArray,
         });
-        console.log(userData);
-        console.log(dataArray);
       });
   }
 
@@ -94,7 +92,10 @@ class App extends Component {
             <a href="" onClick={this.showSidebar}>
               Add New Note
             </a>
-            <a href="">Login</a>
+
+            <a href="" onClick={this.createAccount}>
+              Create Account
+            </a>
           </nav>
         </header>
 
@@ -103,7 +104,7 @@ class App extends Component {
             .map((note, index) => (
               <NoteCard
                 note={note}
-                key={index}
+                key={`note-${index}`}
                 removeNote={this.removeNote}
                 updateNote={this.updateNote}
               />
