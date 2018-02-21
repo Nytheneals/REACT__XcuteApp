@@ -1,16 +1,16 @@
-import React, { Component } from "react";
-import "./App.css";
-import NoteCard from "./noteCard";
-import firebase from "firebase";
+import React, { Component } from 'react';
+import './App.css';
+import NoteCard from './noteCard';
+import firebase from 'firebase';
 
 // CONNECTING TO FIREBASE REALTIME DATABASE
 const config = {
-  apiKey: "AIzaSyBQpt7EfRfLwZlC_PiRgHUBoetUUYZF2oM",
-  authDomain: "xcute-2ac2f.firebaseapp.com",
-  databaseURL: "https://xcute-2ac2f.firebaseio.com",
-  projectId: "xcute-2ac2f",
-  storageBucket: "xcute-2ac2f.appspot.com",
-  messagingSenderId: "666744767443"
+  apiKey: 'AIzaSyBQpt7EfRfLwZlC_PiRgHUBoetUUYZF2oM',
+  authDomain: 'xcute-2ac2f.firebaseapp.com',
+  databaseURL: 'https://xcute-2ac2f.firebaseio.com',
+  projectId: 'xcute-2ac2f',
+  storageBucket: 'xcute-2ac2f.appspot.com',
+  messagingSenderId: '666744767443',
 };
 firebase.initializeApp(config);
 
@@ -19,7 +19,7 @@ class App extends Component {
   constructor() {
     super();
     this.state = {
-      notes: []
+      notes: [],
     };
 
     this.addNote = this.addNote.bind(this);
@@ -33,7 +33,7 @@ class App extends Component {
     firebase
       .database()
       .ref()
-      .on("value", res => {
+      .on('value', (res) => {
         const userData = res.val(); // COPY OF THE OBJECT
         const dataArray = [];
         // ADDING THE KEY TO THE OBJECT
@@ -43,7 +43,7 @@ class App extends Component {
           dataArray.push(userData[objKey]); // WE ARE PUSHING KEYS INTO THE ARRAY
         }
         this.setState({
-          notes: dataArray
+          notes: dataArray,
         });
         console.log(userData);
         console.log(dataArray);
@@ -55,7 +55,7 @@ class App extends Component {
   // ADDED A TOGGLE CLASS
   showSidebar(e) {
     e.preventDefault();
-    this.sidebar.classList.toggle("show");
+    this.sidebar.classList.toggle('show');
   }
 
   //* *************** ADD NEW ITEM ****************//
@@ -63,7 +63,7 @@ class App extends Component {
     e.preventDefault();
     const note = {
       title: this.noteTitle.value,
-      text: this.noteText.value
+      text: this.noteText.value,
     };
 
     // MAKING A REFERENCE TO THE FIREBASE DATABASE
@@ -72,22 +72,19 @@ class App extends Component {
     dbRef.push(note);
 
     // REFRESH INPUT FIELDS
-    this.noteTitle.value = "";
-    this.noteText.value = "";
+    this.noteTitle.value = '';
+    this.noteText.value = '';
     this.showSidebar(e);
   }
 
   //* ***************** UPDATE ITEM ******************//
-  updateNote(noteId) {
-    const dbRef = firebase.database().ref(noteId);
-    dbRef.update();
-  }
+  updateNote(e) {}
   //* ***************** DELETE ITEM ******************//
   removeNote(noteId) {
     const dbRef = firebase.database().ref(noteId);
     dbRef.remove();
   }
-  //***************** COMPONENT RENDER ****************//
+  //* **************** COMPONENT RENDER ****************//
   render() {
     return (
       <div>
@@ -121,17 +118,9 @@ class App extends Component {
               <i className="fa fa-times" onClick={this.showSidebar} />
             </div>
             <label htmlFor="note-title">Title:</label>
-            <input
-              type="text"
-              name="note-title"
-              ref={ref => (this.noteTitle = ref)}
-            />
+            <input type="text" name="note-title" ref={ref => (this.noteTitle = ref)} />
             <label htmlFor="note-text">Note:</label>
-            <textarea
-              type="text"
-              name="note-text"
-              ref={ref => (this.noteText = ref)}
-            />
+            <textarea type="text" name="note-text" ref={ref => (this.noteText = ref)} />
             <input type="submit" value="Add New Note" />
           </form>
         </aside>

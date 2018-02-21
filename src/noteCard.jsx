@@ -1,17 +1,29 @@
-import React, { Component } from "react";
+import React, { Component } from 'react';
+import firebase from 'firebase';
 
 class NoteCard extends Component {
   constructor() {
     super();
     this.state = {
       editing: false,
-      note: {}
+      note: {},
     };
+    this.save = this.save.bind(this);
   }
 
-  componentDidMount() {
+  // UPDATER
+
+  save(e) {
+    e.preventDefault();
+    const dbRef = firebase.database().ref(this.props.note.key);
+
+    dbRef.update({
+      title: this.noteTitle.value,
+      text: this.noteText.value,
+    });
+
     this.setState({
-      note: this.props.note
+      editing: false,
     });
   }
 
@@ -24,11 +36,21 @@ class NoteCard extends Component {
     );
     if (this.state.editing) {
       editingTemp = (
-        <form>
+        <form onSubmit={this.save}>
           <div>
-            <input type="text" defaultValue={this.props.note.title} />
-            <input type="text" defaultValue={this.props.note.text} />
-            <input type="submit" value="Done editing" onSubmit={this.update} />
+            <input
+              type="text"
+              defaultValue={this.props.note.title}
+              name="title"
+              ref={ref => (this.noteTitle = ref)}
+            />
+            <input
+              type="text"
+              defaultValue={this.props.note.text}
+              name="text"
+              ref={ref => (this.noteText = ref)}
+            />
+            <input type="submit" value="Done editing" />
           </div>
         </form>
       );
@@ -48,6 +70,7 @@ class NoteCard extends Component {
             this.props.removeNote(this.props.note.key);
           }}
         />
+        {editingTemp}
       </div>
     );
   }
