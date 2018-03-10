@@ -1,4 +1,4 @@
-# REACT\_\_HuluFlixApp
+# REACT\_\_XcuteApp
 
 A Xcute App Built with React
 
